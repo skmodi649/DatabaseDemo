@@ -10,12 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DatabaseDemo">
         <activity
-            android:name=".CatalogActivity"
-            android:exported="true" />
-        <activity
             android:name=".EditorActivity"
             android:exported="true"
-            android:parentActivityName=".CatalogActivity" >
+            android:label="@string/editor_activity_title_new_pet"
+            android:parentActivityName=".CatalogActivity"/>
+        <activity
+            android:name=".CatalogActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
