@@ -18,6 +18,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CatalogActivity extends AppCompatActivity {
 
+
+    /** Database helper that will provide us access to the database */
+    private PetDbHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,18 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
 
+       // displayDatabaseInfo();
+
+        // To access our database, we instantiate our subclass of SQLiteOpenHelper
+        // and pass the context, which is the current activity.
+        mDbHelper = new PetDbHelper(this);
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         displayDatabaseInfo();
     }
 
@@ -69,22 +85,25 @@ public class CatalogActivity extends AppCompatActivity {
 
 
     private void insertPet(){
+        // Gets the database in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a ContentValues object where column names are the keys,
+        // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
         values.put(PetContract.PetEntry.COLUMN_PET_NAME, "Toto");
         values.put(PetContract.PetEntry.COLUMN_PET_BREED, "Terrier");
         values.put(PetContract.PetEntry.COLUMN_PET_GENDER, PetContract.PetEntry.GENDER_MALE);
         values.put(PetContract.PetEntry.COLUMN_PET_WEIGHT, 7);
 
-        // Inserting the data row into the table
-
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        db.insert(PetContract.PetEntry.TABLE_NAME, null, values);
+        // Insert a new row for Toto in the database, returning the ID of that new row.
+        // The first argument for db.insert() is the pets table name.
+        // The second argument provides the name of a column in which the framework
+        // can insert NULL in the event that the ContentValues is empty (if
+        // this is set to "null", then the framework will not insert a row when
+        // there are no values).
+        // The third argument is the ContentValues object containing the info for Toto.
+        long newRowId = db.insert(PetContract.PetEntry.TABLE_NAME, null, values);
 
     }
 
