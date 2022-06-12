@@ -68,7 +68,27 @@ public class CatalogActivity extends AppCompatActivity {
 
         // Perform this raw SQL query "SELECT * FROM pets"
         // to get a Cursor that contains all rows from the pets table.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + PetContract.PetEntry.TABLE_NAME, null);
+
+
+       // Cursor cursor = db.rawQuery("SELECT * FROM " + PetContract.PetEntry.TABLE_NAME, null);
+
+        // Replacing rawQuery with query
+
+        Cursor cursor = db.query(PetContract.PetEntry.TABLE_NAME, null, null, null, null, null, null, null);
+
+        // Else you can also define projection separately in this manner
+        /*
+        String[] projection = {PetContract.PetEntry.COLUMN_PET_NAME, PetContract.PetEntry.COLUMN_PET_BREED, PetContract.PetEntry.COLUMN_PET_GENDER, PetContract.PetEntry.COLUMN_PET_WEIGHT};
+
+         Cursor cursor = db.query(
+         PetContract.PetEntry.TABLE_NAME,
+         projection,
+         null,
+         null,
+         null,
+         null,
+         null);
+         */
 
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
