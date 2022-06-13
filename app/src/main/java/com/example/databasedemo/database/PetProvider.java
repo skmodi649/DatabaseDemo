@@ -2,6 +2,7 @@ package com.example.databasedemo.database;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -13,6 +14,42 @@ public class PetProvider extends ContentProvider {
 
     /** Tag for the log messages */
     public static final String LOG_TAG = PetProvider.class.getSimpleName();
+
+
+    /*
+    Setting up the URI Matcher in Pet Provider class
+     */
+    private static final int PETS = 100;
+    private static final int PET_ID = 101;
+
+    /**
+     * UriMatcher object to match a content URI to a corresponding code.
+     * The input passed into the constructor represents the code to return to the root URI.
+     * It's common to use NO_MATCH as input for this case.
+     */
+
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    // Static initializer, this is to run anything for first time from this class
+    static{
+        //Whenever a match is found, URIMatcher returns a corresponding code
+
+        //The content URI of the form "content://com.example.databasedemo/pets" will map to
+        //integer code {@link #PETS}. This Uri is used to provide access to multiple rows of the
+        //pets table
+        sUriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_PETS, PETS);
+
+        //The content URI of the form "content://com.example.databasedemo/pets" will map to
+        //integer code {@link #PET_ID}. This Uri is used to provide access to ONE single row of the
+        //pets table
+        //**Note : # is used for integer and * for characters
+        sUriMatcher.addURI(PetContract.CONTENT_AUTHORITY, PetContract.PATH_PETS+"/#", PET_ID);
+
+    }
+
+
+
+
 
     /**
      * Initialize the provider and the database helper object.
