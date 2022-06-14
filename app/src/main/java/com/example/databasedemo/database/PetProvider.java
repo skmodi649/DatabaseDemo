@@ -15,7 +15,7 @@ import android.util.Log;
  */
 public class PetProvider extends ContentProvider {
 
-    /** Tag for the log messages */
+    /** Tag for log messages */
     public static final String LOG_TAG = PetProvider.class.getSimpleName();
 
 
