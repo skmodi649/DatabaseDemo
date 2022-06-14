@@ -5,6 +5,7 @@ import androidx.core.app.NavUtils;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -111,10 +112,10 @@ public class EditorActivity extends AppCompatActivity {
 
 
         // Create database helper
-        PetDbHelper mDbHelper = new PetDbHelper(this);
+     //   PetDbHelper mDbHelper = new PetDbHelper(this);
 
         // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+      //  SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 
 
@@ -124,10 +125,18 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetContract.PetEntry.COLUMN_PET_GENDER, mGender);
         values.put(PetContract.PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString().trim()));
 
-        // Insert a new row for pet in the database, returning the ID of that new row.
-        long newRowId = db.insert(PetContract.PetEntry.TABLE_NAME, null, values);
+        // Insert a new row for Toto into the provider using the ContentResolver.
+        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
+        // into the pets database table.
+        // Receive the new content URI that will allow us to access Toto's data in the future.
+        Uri newUri = getContentResolver().insert(PetContract.PetEntry.CONTENT_URI, values);
 
-        // Show a toast message depending on whether or not the insertion was successful
+
+
+        // Insert a new row for pet in the database, returning the ID of that new row.
+      //  long newRowId = db.insert(PetContract.PetEntry.TABLE_NAME, null, values);
+
+   /**     // Show a toast message depending on whether or not the insertion was successful
         if (newRowId == -1) {
             // If the row ID is -1, then there was an error with insertion.
             Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
@@ -135,8 +144,8 @@ public class EditorActivity extends AppCompatActivity {
             // Otherwise, the insertion was successful and we can display a toast with the row ID.
             Toast.makeText(this, "Pet saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
         }
+     */
     }
-
 
 
     @Override
