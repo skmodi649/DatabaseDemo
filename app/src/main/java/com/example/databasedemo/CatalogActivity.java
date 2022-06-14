@@ -11,8 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-
 import com.example.databasedemo.database.PetContract.PetEntry;
 import com.example.databasedemo.database.PetDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -75,7 +73,7 @@ public class CatalogActivity extends AppCompatActivity {
 
         // Replacing rawQuery with query
 
-        Cursor cursor = db.query(PetEntry.TABLE_NAME, null, null, null, null, null, null, null);
+     //   Cursor cursor = db.query(PetEntry.TABLE_NAME, null, null, null, null, null, null, null);
 
         // Else you can also define projection separately in this manner
         /*
@@ -91,6 +89,14 @@ public class CatalogActivity extends AppCompatActivity {
          null);
          */
 
+        /**
+         * Instead of directly querying the database
+         * we will use the query() method to query database via ContentProvider, PetProvider.java class in this case
+         */
+
+        String[] projection = {PetEntry.COLUMN_PET_NAME, PetEntry.COLUMN_PET_BREED, PetEntry.COLUMN_PET_GENDER, PetEntry.COLUMN_PET_WEIGHT};
+
+        Cursor cursor = getContentResolver().query(PetEntry.CONTENT_URI , projection, null, null, null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_pet);
 
