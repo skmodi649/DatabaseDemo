@@ -201,6 +201,9 @@ public class PetProvider extends ContentProvider {
      */
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         // First applying the Sanity check conditions before the data gets updated in the table, quite similar to what we did in the insertPet method
+
+        // At first we will check for the presence of the column i.e. key in the table, therefore using the containsKey method
+
         // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(PetContract.PetEntry.COLUMN_PET_NAME)) {
